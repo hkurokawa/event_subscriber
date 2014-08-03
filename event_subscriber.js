@@ -1,14 +1,10 @@
 var twitter = require('twitter');
 var credential = require('./credential');
-var readline = require('readline');
-var rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
 const BOT_ID = 'event_subscribe';
 const COMMAND_SUBSCRIBE = 'subscribe';
 const COMMAND_UNSUBSCRIBE = 'unsubscribe';
-const DEBUG = false;
+
+var DEBUG = false;
 
 if (typeof String.prototype.startsWith != 'function') {
   String.prototype.startsWith = function (str){
@@ -42,7 +38,7 @@ var getKeywords = function(cmd, text) {
 var reply = function(id, text) {
     var msg = '@' + id + ' ' + text;
     if (DEBUG) {
-        rl.write(msg);
+        console.log('Reply Message> ' + msg);
     } else {
         bot.updateStatus(msg , function (data) {
             console.log(data);
@@ -50,10 +46,20 @@ var reply = function(id, text) {
     }
 };
 
-// Main
+// Main part
+// Parse the arguments
+DEBUG = process.argv.indexOf('-d') >= 0;
+// Start the process
 if (DEBUG) {
     console.log('Running in DEBUG mode.');
-    rl.question('> ', function(text){
+    var readline = require('readline');
+    var rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+    rl.setPrompt('> ');
+    rl.prompt();
+    rl.on('line', function(text){
         processData({
             user: {
                 screen_name: 'debug_user'
@@ -61,6 +67,10 @@ if (DEBUG) {
             text: text,
             in_reply_to_user_id: 0
         });
+        rl.prompt();
+    }).on('exit', function(){
+        console.log('exit.');
+        process.exit(0);
     });
 } else {
     var bot = new twitter(credential.twitter);
