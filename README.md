@@ -17,7 +17,7 @@ npm install twitter
    node event_subscriber
    ```
    
-2. Launch in Debug mode
+2. Launch in debug mode
    
    ```shell
    node event_subscriber -d
