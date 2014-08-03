@@ -5,11 +5,15 @@ A Twitter bot to display event information a follower is interested in.
 
 ## Install
 
-```shell
+1. Clone the repository and install dependencies
+   
+   ```shell
 % git clone git@github.com:hkurokawa/event_subscriber.git
 % cd event_subscriber
 % npm install twitter
 ```
+2. Copy `credential.js.template` and rename it to `credential.js`
+3. Edit the file
 
 ## Usage
 
